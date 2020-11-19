@@ -32,7 +32,6 @@ try:
                 if cantidad > 0:
                     for articulo in range (cantidad):
                         fecha_actual = datetime.date.today()
-                        
                         descripcion = input("Escriba la descripción del artículo: ")
                         if len(descripcion) == 0 or descripcion.isspace():
                             print("\nIngresaste un carácter no válido\nSe repetirá el menú\n")
@@ -52,7 +51,7 @@ try:
                                     print(f"La cantidad de piezas es: {cant_piezas}")
                                     print(f"El precio de venta del artículo es: {precio_venta}")
                                     
-                                    input("Presione enter para continuar...")
+                                    input("\nPresione enter para continuar...")
                                     borrar()
                                 else:
                                     print("\nIngrese un precio de venta que sea válido\nSe repetirá el menú\n")  
