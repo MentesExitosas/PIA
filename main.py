@@ -87,10 +87,14 @@ try:
                         pedirfecha = input("¿Cuál es la fecha que quieres consultar? Formato: Año-Mes-Día: ")
                         query = (f"SELECT * from Venta where fecha = '{pedirfecha}'")
                         conexion.execute(query)
-                        datos = conexion.fetchall()
-                        print(f"id\tDescripción\tCantidad\tPrecio\tTotal\tFecha")
-                        for id,desc,cant,prec,prect,fech in datos:
-                            print(f"{id}\t{desc}\t\t    {cant}\t\t {prec}\t  {prect}\t{fech}")
+                        buscarfecha = conexion.fetchall()
+                        if buscarfecha == None or len(buscarfecha) == 0:
+                            print(f'No hay ventas para la fecha: {pedirfecha}')
+                        else:
+                            datos = conexion.fetchall()
+                            print(f"id\tDescripción\tCantidad\tPrecio\tTotal\tFecha")
+                            for id,desc,cant,prec,prect,fech in datos:
+                                print(f"{id}\t{desc}\t\t    {cant}\t\t {prec}\t  {prect}\t{fech}")
             else:
                 print("\nIngrese un dígito válido\nSe repetirá el menú\n")
                 input("Presione enter para continuar...")
