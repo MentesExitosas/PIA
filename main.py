@@ -13,8 +13,6 @@ def borrar():
     system("clear")
 
 
-lista_piezas = []
-lista_precios = []
 precios_totales = []
 menu = 1
 
