@@ -64,8 +64,10 @@ try:
                                             I = 1
                                         else:
                                             I = int(I[0])
-                                        insert = (f'INSERT INTO Venta VALUES({I}), {descripcion}, {cant_piezas},{precio_venta}, {total}, {fecha_actual}')
+                                        insert = (f"INSERT INTO Venta VALUES({I}, '{descripcion}', {cant_piezas},{precio_venta}, {total}, '{fecha_actual}')")
+                                        
                                         conexion.execute(insert)
+                                        print("\nAñadido a la base de datos")
                                         input("Presione enter para continuar...")
                                         borrar()
                                     else:
