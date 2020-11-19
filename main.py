@@ -19,11 +19,12 @@ lista_precios = []
 precios_totales = []
 menu = 1
 
+
 try:
 
     with sqlite3.connect('Ventas.db') as conn:
         conexion = conn.cursor()
-        conexion.execute('CREATE TABLE IF NOT EXISTS Venta (clave INTEGER PRIMARY KEY AUTOINCREMENT,Descripcion_art TEXT NOT NULL,Cantidad_elementos INTEGER, Precio_producto FLOAT, Total INTEGER, fecha DATE);')
+        conexion.execute('CREATE TABLE IF NOT EXISTS Venta (ID INTEGER PRIMARY KEY AUTOINCREMENT,Descripcion_art TEXT NOT NULL,Cantidad_elementos INTEGER, Precio_producto FLOAT, Total INTEGER, fecha DATE);')
         print('Se creo la Base de datos')
         while menu != 3:
             print("\n···BIENVENIDO A JOYERIA CISNEROS···")
@@ -57,6 +58,14 @@ try:
                                         print(f"La cantidad de piezas es: {cant_piezas}")
                                         print(f"El precio de venta del artículo es: {precio_venta}")
                                         
+                                        conexion.execute('SELECT MAX(ID)+1 FROM Venta')
+                                        I = conexion.fetchone()
+                                        if I[0] == None:
+                                            I = 1
+                                        else:
+                                            I = int(I[0])
+                                        insert = (f'INSERT INTO Venta VALUES({I}), {descripcion}, {cant_piezas},{precio_venta}, {total}, {fecha_actual}')
+                                        conexion.execute(insert)
                                         input("Presione enter para continuar...")
                                         borrar()
                                     else:
