@@ -84,13 +84,16 @@ try:
                         input("Presione enter para continuar...")
                         borrar()
                 if menu == 2:
-                    if not os.path.exists("historial.csv"):
+                    if not os.path.exists("Ventas.db"):
                         print("EL ARCHIVO NO EXISTE, FAVOR DE REGISTRAR UNA VENTA")
                     else:
-                        inventario = pd.read_csv("historial.csv", index_col=0)
                         pedirfecha = input("¿Cuál es la fecha que quieres consultar? Formato: Año-Mes-Día: ")
-                        filtro = inventario.loc[pedirfecha: pedirfecha]
-                        print(filtro)
+                        query = (f"SELECT * from Venta where fecha = '{pedirfecha}'")
+                        conexion.execute(query)
+                        datos = conexion.fetchall()
+                        print(f"id\tDescripción\tCantidad\tPrecio\tTotal\tFecha")
+                        for id,desc,cant,prec,prect,fech in datos:
+                            print(f"{id}\t{desc}\t\t    {cant}\t\t {prec}\t  {prect}\t{fech}")
             else:
                 print("\nIngrese un dígito válido\nSe repetirá el menú\n")
                 input("Presione enter para continuar...")
