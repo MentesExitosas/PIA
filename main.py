@@ -12,8 +12,7 @@ def borrar():
   else:
     system("clear")
 
-lista_fecha = []
-lista_descripcion = []
+
 lista_piezas = []
 lista_precios = []
 precios_totales = []
