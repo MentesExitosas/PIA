@@ -55,18 +55,20 @@ try:
                                         print(f"La cantidad de piezas es: {cant_piezas}")
                                         print(f"El precio de venta del artículo es: {precio_venta}")
                                         
-                                        conexion.execute('SELECT MAX(ID)+1 FROM Venta')
-                                        I = conexion.fetchone()
-                                        if I[0] == None:
-                                            I = 1
-                                        else:
-                                            I = int(I[0])
-                                        insert = (f"INSERT INTO Venta VALUES({I}, '{descripcion}', {cant_piezas},{precio_venta}, {total}, '{fecha_actual}')")
+                                        with sqlite3.connect("Ventas.db") as conn:
+                                            conexion = conn.cursor()
+                                            conexion.execute('SELECT MAX(ID)+1 FROM Venta')
+                                            I = conexion.fetchone()
+                                            if I[0] == None:
+                                                I = 1
+                                            else:
+                                                I = int(I[0])
+                                            insert = (f"INSERT INTO Venta VALUES({I}, '{descripcion}', {cant_piezas},{precio_venta}, {total}, '{fecha_actual}')")
                                         
-                                        conexion.execute(insert)
-                                        print("\nAñadido a la base de datos")
-                                        input("Presione enter para continuar...")
-                                        borrar()
+                                            conexion.execute(insert)
+                                            print("\nAñadido a la base de datos")
+                                            input("Presione enter para continuar...")
+                                            borrar()
                                     else:
                                         print("\nIngrese un precio de venta que sea válido\nSe repetirá el menú\n")  
                                         input("Presione enter para continuar...")
@@ -84,17 +86,19 @@ try:
                     if not os.path.exists("Ventas.db"):
                         print("EL ARCHIVO NO EXISTE, FAVOR DE REGISTRAR UNA VENTA")
                     else:
-                        pedirfecha = input("¿Cuál es la fecha que quieres consultar? Formato: Año-Mes-Día: ")
-                        query = (f"SELECT * from Venta where fecha = '{pedirfecha}'")
-                        conexion.execute(query)
-                        buscarfecha = conexion.fetchall()
-                        if buscarfecha == None or len(buscarfecha) == 0:
-                            print(f'No hay ventas para la fecha: {pedirfecha}')
-                        else:
+                        with sqlite3.connect("Ventas.db") as conn:
+                            conexion = conn.cursor()
+                            pedirfecha = input("¿Cuál es la fecha que quieres consultar? Formato: Año-Mes-Día: ")
+                            query = (f"SELECT * from Venta where fecha = '{pedirfecha}'")
+                            conexion.execute(query)
                             datos = conexion.fetchall()
-                            print(f"id\tDescripción\tCantidad\tPrecio\tTotal\tFecha")
-                            for id,desc,cant,prec,prect,fech in datos:
-                                print(f"{id}\t{desc}\t\t    {cant}\t\t {prec}\t  {prect}\t{fech}")
+                            if datos == None or len(datos) == 0:
+                                print(f'No hay ventas para la fecha: {pedirfecha}')
+                            else:
+                                
+                                print(f"id\tDescripción\tCantidad\tPrecio\tTotal\tFecha")
+                                for id,desc,cant,prec,prect,fech in datos:
+                                    print(f"{id}\t{desc}\t\t    {cant}\t\t {prec}\t  {prect}\t{fech}")
             else:
                 print("\nIngrese un dígito válido\nSe repetirá el menú\n")
                 input("Presione enter para continuar...")
